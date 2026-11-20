@@ -232,6 +232,21 @@
   .timeline .what{font-size:.95rem;}
   .timeline .what b{font-weight:800;}
 
+  /* ---------- OS jump buttons ---------- */
+  .os-jump{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
+  .os-btn{
+    display:inline-flex;align-items:center;gap:10px;
+    text-decoration:none;font-weight:800;color:#fff;
+    padding:13px 26px;border-radius:999px;font-size:1rem;line-height:1.3;
+    box-shadow:var(--shadow-soft);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .os-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+  .os-btn svg{width:21px;height:21px;flex:none;}
+  .os-btn.ios{background:linear-gradient(120deg,var(--pink),var(--pink-deep));}
+  .os-btn.droid{background:linear-gradient(120deg,var(--teal),var(--teal-deep));}
+  .os-btn small{display:block;font-size:.72rem;font-weight:700;opacity:.85;letter-spacing:.05em;}
+
   /* ---------- note ---------- */
   .note{
     margin:34px 0 12px;border-radius:var(--radius);padding:28px 26px;text-align:center;
@@ -386,6 +401,21 @@
           <div class="what">v0.4で<b>MCP連携</b>、v0.5で<b>琴葉茜・琴葉葵</b>（A.I.VOICE）の追加を予定しています。</div>
         </li>
       </ul>
+    </div>
+  </section>
+
+  <section class="note glass">
+    <h2>テストに参加される方へ</h2>
+    <p>PuwaPuwaVoiceは現在、招待制でテスト配信を行っています。<br>招待メールを受け取った方は、インストール手順のページをご覧ください。</p>
+    <div class="os-jump">
+      <a class="os-btn ios" href="/testflight#ios">
+        <svg viewBox="0 0 384 512" fill="#fff" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+        <span>iPhoneの方はこちら<small>TestFlightでインストール</small></span>
+      </a>
+      <a class="os-btn droid" href="/testflight#android">
+        <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M6.7 8.1 5.2 5.9a.35.35 0 0 1 .55-.42l1.6 2.24A11.6 11.6 0 0 1 12 7.2c1.63 0 3.2.18 4.65.52l1.6-2.24a.35.35 0 0 1 .55.42l-1.5 2.2c1.05.44 1.7 1.13 1.7 1.9H5c0-.77.65-1.46 1.7-1.9zM8.5 12.6a.95.95 0 1 0 0-1.9.95.95 0 0 0 0 1.9zm7 0a.95.95 0 1 0 0-1.9.95.95 0 0 0 0 1.9zM5 11.4h14v6.35a1.6 1.6 0 0 1-1.6 1.6h-.9v2.6a1.55 1.55 0 0 1-3.1 0v-2.6H10.6v2.6a1.55 1.55 0 0 1-3.1 0v-2.6H6.6A1.6 1.6 0 0 1 5 17.75V11.4zM3.4 11.6a1.55 1.55 0 0 1 1.6 1.55v4.6a1.55 1.55 0 0 1-3.1 0v-4.6c0-.86.67-1.55 1.5-1.55zm17.2 0c.83 0 1.5.69 1.5 1.55v4.6a1.55 1.55 0 0 1-3.1 0v-4.6a1.55 1.55 0 0 1 1.6-1.55z"/></svg>
+        <span>Androidの方はこちら<small>App Distributionでインストール</small></span>
+      </a>
     </div>
   </section>
 

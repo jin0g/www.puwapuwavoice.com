@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2DHEEPZ87N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-2DHEEPZ87N');
+</script>
+<title>テスト版のインストール手順｜PuwaPuwaVoice（プワプワボイス）</title>
+<meta name="description" content="PuwaPuwaVoice テスト版のインストール手順です。iPhoneの方はTestFlight、Androidの方はFirebase App Distributionを使ってインストールします。テストは招待制です。">
+<link rel="canonical" href="https://puwapuwavoice.com/testflight">
+<meta name="theme-color" content="#ff8297">
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="PuwaPuwaVoice">
+<meta property="og:title" content="テスト版のインストール手順｜PuwaPuwaVoice（プワプワボイス）">
+<meta property="og:description" content="PuwaPuwaVoice テスト版のインストール手順です。iPhoneの方はTestFlight、Androidの方はFirebase App Distributionを使ってインストールします。テストは招待制です。">
+<meta property="og:url" content="https://puwapuwavoice.com/testflight">
+<meta property="og:image" content="https://puwapuwavoice.com/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="PuwaPuwaVoice（プワプワボイス）｜ テスト版のインストール手順">
+<meta property="og:locale" content="ja_JP">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@puwapuwavoice">
+<meta name="twitter:title" content="テスト版のインストール手順｜PuwaPuwaVoice（プワプワボイス）">
+<meta name="twitter:description" content="PuwaPuwaVoice テスト版のインストール手順です。iPhoneの方はTestFlight、Androidの方はFirebase App Distributionを使ってインストールします。テストは招待制です。">
+<meta name="twitter:image" content="https://puwapuwavoice.com/og-image.png">
+<meta name="twitter:image:alt" content="PuwaPuwaVoice（プワプワボイス）｜ テスト版のインストール手順">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<style>
+  :root{
+    --pink:#ff6b8a;
+    --pink-deep:#e84a6f;
+    --red:#ff5252;
+    --teal:#00c5b7;
+    --teal-deep:#00a396;
+    --pink-soft:#ffe3ea;
+    --ink:#5a3a42;
+    --ink-soft:#8d6470;
+    --glass:rgba(255,255,255,.55);
+    --glass-strong:rgba(255,255,255,.68);
+    --glass-border:rgba(255,255,255,.75);
+    --radius:30px;
+    --shadow:0 18px 45px rgba(160,50,90,.16), 0 4px 14px rgba(0,150,140,.08);
+    --shadow-soft:0 10px 30px rgba(160,50,90,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"Hiragino Maru Gothic ProN","Hiragino Sans","Hiragino Kaku Gothic ProN",
+      -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;
+    color:var(--ink);
+    line-height:1.8;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    overflow-x:hidden;
+    background:#fff2f4;
+  }
+  /* liquid gradient backdrop: pink -> teal, like the app icon */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(52rem 34rem at 8% -6%, rgba(255,130,151,.55) 0, transparent 60%),
+      radial-gradient(46rem 32rem at 96% 4%, rgba(0,197,183,.5) 0, transparent 62%),
+      radial-gradient(40rem 30rem at 88% 96%, rgba(0,197,183,.34) 0, transparent 60%),
+      radial-gradient(44rem 32rem at 4% 100%, rgba(252,99,157,.4) 0, transparent 62%),
+      linear-gradient(115deg,#ffe9ee 0%,#fff7f5 42%,#eafaf7 100%);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(16rem 16rem at 78% 30%, rgba(255,255,255,.5) 0, transparent 70%),
+      radial-gradient(11rem 11rem at 16% 58%, rgba(255,255,255,.45) 0, transparent 70%);
+    animation:drift 16s ease-in-out infinite alternate;
+  }
+  @keyframes drift{
+    from{transform:translate3d(0,0,0) scale(1);}
+    to{transform:translate3d(0,-14px,0) scale(1.04);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    body::after{animation:none;}
+  }
+  .wrap{width:min(980px,100% - 40px);margin:0 auto;}
+
+  .glass{
+    background:var(--glass);
+    -webkit-backdrop-filter:blur(20px) saturate(170%);
+    backdrop-filter:blur(20px) saturate(170%);
+    border:1px solid var(--glass-border);
+    box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.85);
+  }
+
+  /* ---------- header ---------- */
+  header{padding:20px 0 4px;}
+  .brandbar{
+    display:flex;align-items:center;gap:12px;
+    border-radius:999px;padding:10px 22px 10px 12px;
+  }
+  .brandbar .appicon{
+    width:46px;height:46px;flex:none;border-radius:13px;
+    box-shadow:0 6px 16px rgba(160,50,90,.25);
+  }
+  .brandbar .name{font-size:1.4rem;font-weight:800;letter-spacing:.02em;line-height:1.25;
+    background:linear-gradient(92deg,var(--pink-deep),var(--teal-deep));
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .brandbar .name small{display:block;font-size:.7rem;font-weight:600;color:var(--ink-soft);letter-spacing:.16em;
+    -webkit-text-fill-color:var(--ink-soft);}
+  .brandbar .xlink{
+    margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:7px;
+    font-size:.85rem;font-weight:700;color:var(--ink);text-decoration:none;
+    background:rgba(255,255,255,.65);border:1px solid var(--glass-border);
+    border-radius:999px;padding:6px 16px;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .brandbar .xlink:hover{transform:translateY(-1px);box-shadow:var(--shadow-soft);}
+  .brandbar .xlink svg{width:15px;height:15px;}
+
+  /* ---------- hero ---------- */
+  .hero{padding:30px 0 8px;}
+  .hero-panel{
+    border-radius:38px;padding:52px 30px 44px;text-align:center;position:relative;overflow:hidden;
+  }
+  .hero-panel::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(160deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 42%);
+  }
+  .hero .appicon-big{
+    width:clamp(104px,22vw,144px);height:auto;border-radius:24%;
+    box-shadow:0 22px 44px rgba(160,50,90,.28), 0 4px 12px rgba(0,150,140,.15);
+    border:1px solid rgba(255,255,255,.8);
+  }
+  .puff{
+    display:inline-block;margin-top:26px;
+    background:rgba(255,255,255,.7);border:1px solid var(--glass-border);
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    border-radius:999px;padding:7px 22px;font-weight:700;color:var(--pink-deep);
+    font-size:.9rem;letter-spacing:.08em;box-shadow:var(--shadow-soft);
+  }
+  .hero h1{
+    margin:20px 0 4px;
+    font-size:clamp(1.7rem,6vw,2.7rem);
+    font-weight:900;letter-spacing:.03em;line-height:1.3;
+    background:linear-gradient(94deg,var(--red) 0%,var(--pink) 38%,var(--pink-deep) 62%,var(--teal) 108%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero .tagline{
+    margin:12px auto 0;max-width:38em;
+    font-size:clamp(.98rem,3.2vw,1.12rem);font-weight:600;color:var(--ink);
+  }
+  .hero .sub{margin-top:10px;color:var(--ink-soft);font-size:.95rem;}
+  .hero .sub a{color:var(--pink-deep);font-weight:700;}
+
+  /* ---------- OS jump buttons ---------- */
+  .os-jump{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:28px;position:relative;}
+  .os-btn{
+    display:inline-flex;align-items:center;gap:10px;
+    text-decoration:none;font-weight:800;color:#fff;
+    padding:14px 28px;border-radius:999px;font-size:1.02rem;line-height:1.3;
+    box-shadow:var(--shadow-soft);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .os-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+  .os-btn svg{width:22px;height:22px;flex:none;}
+  .os-btn.ios{background:linear-gradient(120deg,var(--pink),var(--pink-deep));}
+  .os-btn.droid{background:linear-gradient(120deg,var(--teal),var(--teal-deep));}
+  .os-btn small{display:block;font-size:.72rem;font-weight:700;opacity:.85;letter-spacing:.05em;}
+
+  /* ---------- sections ---------- */
+  .features{padding:34px 0 8px;scroll-margin-top:16px;}
+  .features h2{
+    text-align:center;font-size:1.4rem;font-weight:800;margin-bottom:6px;
+    background:linear-gradient(92deg,var(--pink-deep),var(--teal-deep));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .features .lead{text-align:center;color:var(--ink-soft);font-size:.95rem;margin-bottom:26px;}
+
+  /* ---------- steps ---------- */
+  .steps{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:16px;}
+  .step{
+    border-radius:var(--radius);padding:30px 26px 24px;position:relative;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .step:hover{transform:translateY(-3px);}
+  .step .num{
+    position:absolute;top:-15px;left:24px;
+    min-width:36px;height:36px;padding:0 8px;border-radius:999px;
+    display:grid;place-items:center;
+    color:#fff;font-weight:900;font-size:1.05rem;
+    background:linear-gradient(135deg,var(--pink),var(--pink-deep));
+    border:2px solid rgba(255,255,255,.85);
+    box-shadow:0 8px 18px rgba(160,50,90,.25);
+  }
+  .steps.teal .num{background:linear-gradient(135deg,var(--teal),var(--teal-deep));box-shadow:0 8px 18px rgba(0,150,140,.25);}
+  .step h3{font-size:1.06rem;font-weight:800;margin-bottom:6px;}
+  .step p{font-size:.93rem;color:var(--ink-soft);}
+  .step p b{color:var(--ink);}
+  .step p a{color:var(--pink-deep);font-weight:700;}
+  .steps.teal p a{color:var(--teal-deep);}
+
+  /* phone mock (schematic) */
+  .phone{
+    width:186px;max-width:74vw;margin:18px auto 4px;
+    background:#fff;border:3px solid #6b4750;border-radius:28px;
+    padding:10px 10px 13px;
+    box-shadow:0 12px 26px rgba(160,50,90,.16);
+  }
+  .phone .notch{width:54px;height:5px;border-radius:3px;background:#ecd9de;margin:0 auto 10px;}
+  .phone .ptitle{font-size:.66rem;font-weight:800;color:var(--ink-soft);letter-spacing:.08em;margin:0 2px 7px;}
+  .msearch{
+    background:#f7ecef;border-radius:999px;padding:5px 12px;
+    font-size:.7rem;color:var(--ink-soft);margin-bottom:8px;
+  }
+  .mrow{
+    display:flex;align-items:center;gap:8px;
+    background:#fdf3f5;border-radius:12px;padding:8px 9px;margin-bottom:7px;
+    font-size:.7rem;line-height:1.5;color:var(--ink);
+  }
+  .mrow:last-child{margin-bottom:0;}
+  .mrow.col{flex-direction:column;align-items:flex-start;gap:1px;}
+  .mrow.center{justify-content:center;background:transparent;padding:2px 0 0;}
+  .mrow .mtitle{font-weight:800;line-height:1.4;}
+  .mrow .mtitle small{display:block;font-weight:600;color:var(--ink-soft);font-size:.92em;}
+  .mrow .mfrom{font-weight:800;}
+  .mrow .msubj{color:var(--ink-soft);}
+  .mrow .mlink{color:var(--teal-deep);font-weight:800;text-decoration:underline;}
+  .mbtn{
+    margin-left:auto;flex:none;
+    display:inline-block;border-radius:999px;padding:4px 13px;
+    background:linear-gradient(120deg,var(--pink),var(--pink-deep));
+    color:#fff;font-weight:800;font-size:.7rem;
+  }
+  .mbtn.teal{background:linear-gradient(120deg,var(--teal),var(--teal-deep));}
+  .mbtn.ghost{background:#fff;color:var(--ink);border:1.5px solid #e5ccd3;margin-left:0;}
+  .mrow.center .mbtn{margin-left:0;}
+  .mappicon{
+    width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;
+  }
+  .mappicon svg{width:20px;height:20px;}
+  .mappicon.tf{background:linear-gradient(150deg,#2f9df4,#1a68d7);}
+  .mappicon.mail{background:linear-gradient(150deg,#ffd9e1,#ffb3c2);}
+  .mappicon.at{background:linear-gradient(150deg,#ffe1a8,#ffb03a);}
+  .mappicon-img{width:34px;height:34px;flex:none;border-radius:9px;display:block;}
+  .tap{box-shadow:0 0 0 2.5px #fff,0 0 0 5.5px var(--pink);border-radius:999px;}
+  .tap.teal{box-shadow:0 0 0 2.5px #fff,0 0 0 5.5px var(--teal);}
+  .hgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:2px;}
+  .hgrid .happ{aspect-ratio:1;border-radius:24%;display:block;width:100%;}
+  .hgrid img.happ{object-fit:cover;}
+  .hgrid .tap{border-radius:24%;}
+  .figcap{text-align:center;font-size:.76rem;color:var(--ink-soft);margin-top:8px;}
+
+  /* ---------- note ---------- */
+  .note{
+    margin:30px 0 12px;border-radius:var(--radius);padding:28px 26px;
+  }
+  .note h2{font-size:1.12rem;font-weight:800;color:var(--pink-deep);margin-bottom:10px;text-align:center;}
+  .note.teal h2{color:var(--teal-deep);}
+  .note ul{list-style:none;}
+  .note li{font-size:.93rem;color:var(--ink);padding:7px 0 7px 1.3em;position:relative;border-bottom:1px dashed rgba(141,100,112,.22);}
+  .note li:last-child{border-bottom:none;}
+  .note li::before{content:"";position:absolute;left:.15em;top:1.05em;width:.5em;height:.5em;border-radius:50%;background:var(--pink);}
+  .note.teal li::before{background:var(--teal);}
+  .note li b{font-weight:800;}
+  .backlink{text-align:center;margin:26px 0 4px;font-size:.92rem;}
+  .backlink a{color:var(--pink-deep);font-weight:700;}
+
+  /* ---------- footer ---------- */
+  footer{margin-top:auto;padding:40px 0 32px;text-align:center;color:var(--ink-soft);font-size:.88rem;}
+  footer .heart{color:var(--pink);}
+
+  @media (max-width:640px){
+    .steps{grid-template-columns:1fr;}
+    .hero{padding:22px 0 4px;}
+    .hero-panel{padding:40px 20px 34px;border-radius:30px;}
+    .step{padding:28px 21px 22px;}
+    .brandbar .name{font-size:1.2rem;}
+    .os-btn{padding:13px 22px;font-size:.97rem;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brandbar glass">
+      <img class="appicon" src="/icon-512.png" alt="PuwaPuwaVoice アイコン" width="46" height="46">
+      <div class="name">PuwaPuwaVoice<small>プワプワボイス</small></div>
+      <a class="xlink" href="https://x.com/puwapuwavoice" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23.3 22h-6.3l-4.9-6.4L6.5 22H3.4l7.3-8.3L1 2h6.5l4.4 5.9L18.9 2zm-1.1 18h1.7L7.1 3.9H5.3L17.8 20z"/></svg>
+        @puwapuwavoice
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="hero-panel glass">
+      <img class="appicon-big" src="/icon-512.png" alt="PuwaPuwaVoice アイコン" width="336" height="336">
+      <div><span class="puff">🌸 テスター向けのご案内 🌸</span></div>
+      <h1>テスト版のインストール手順</h1>
+      <p class="tagline">PuwaPuwaVoiceのテスト版は、<b>招待制</b>で配信しています。<br>株式会社スパイスエンジンからの招待メールを受け取った方が対象です。</p>
+      <p class="sub">お使いの端末に合わせて、手順をご覧ください。</p>
+      <div class="os-jump">
+        <a class="os-btn ios" href="#ios">
+          <svg viewBox="0 0 384 512" fill="#fff" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+          <span>iPhoneの方はこちら<small>TestFlightでインストール</small></span>
+        </a>
+        <a class="os-btn droid" href="#android">
+          <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M6.7 8.1 5.2 5.9a.35.35 0 0 1 .55-.42l1.6 2.24A11.6 11.6 0 0 1 12 7.2c1.63 0 3.2.18 4.65.52l1.6-2.24a.35.35 0 0 1 .55.42l-1.5 2.2c1.05.44 1.7 1.13 1.7 1.9H5c0-.77.65-1.46 1.7-1.9zM8.5 12.6a.95.95 0 1 0 0-1.9.95.95 0 0 0 0 1.9zm7 0a.95.95 0 1 0 0-1.9.95.95 0 0 0 0 1.9zM5 11.4h14v6.35a1.6 1.6 0 0 1-1.6 1.6h-.9v2.6a1.55 1.55 0 0 1-3.1 0v-2.6H10.6v2.6a1.55 1.55 0 0 1-3.1 0v-2.6H6.6A1.6 1.6 0 0 1 5 17.75V11.4zM3.4 11.6a1.55 1.55 0 0 1 1.6 1.55v4.6a1.55 1.55 0 0 1-3.1 0v-4.6c0-.86.67-1.55 1.5-1.55zm17.2 0c.83 0 1.5.69 1.5 1.55v4.6a1.55 1.55 0 0 1-3.1 0v-4.6a1.55 1.55 0 0 1 1.6-1.55z"/></svg>
+          <span>Androidの方はこちら<small>App Distributionでインストール</small></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="ios">
+    <h2>iPhoneの方（TestFlight）</h2>
+    <p class="lead">iPhone・iPadでは、Appleの「TestFlight」アプリを使ってインストールします。</p>
+    <div class="steps">
+
+      <article class="step glass">
+        <span class="num">1</span>
+        <h3>「TestFlight」アプリをインストール</h3>
+        <p>App Storeで、Appleが提供する<b>「TestFlight」</b>をインストールします。すでにインストール済みの方は、ステップ2へ進んでください。</p>
+        <p style="margin-top:8px;"><a href="https://apps.apple.com/jp/app/testflight/id899247664" target="_blank" rel="noopener">App Storeで「TestFlight」を開く</a></p>
+        <div class="phone" aria-hidden="true">
+          <div class="notch"></div>
+          <div class="ptitle">App Store</div>
+          <div class="msearch">🔍 TestFlight</div>
+          <div class="mrow">
+            <span class="mappicon tf"><svg viewBox="0 0 24 24" fill="#fff"><path d="M2.5 20.5 22 12 2.5 3.5v6.6L16.6 12 2.5 13.9v6.6z"/></svg></span>
+            <span class="mtitle">TestFlight<small>Apple</small></span>
+            <span class="mbtn tap">入手</span>
+          </div>
+          <div class="mrow">
+            <span class="mappicon" style="background:linear-gradient(150deg,#e8d5da,#d9bcc4);"></span>
+            <span class="mtitle" style="color:var(--ink-soft);">ほかのアプリ</span>
+          </div>
+        </div>
+        <p class="figcap">図：App Storeで「TestFlight」を入手</p>
+      </article>
+
+      <article class="step glass">
+        <span class="num">2</span>
+        <h3>招待メールを開く</h3>
+        <p>株式会社スパイスエンジンから届く<b>招待メール</b>を開き、メール内の<b>「TestFlightで表示」</b>をタップします。案内されたリンクから参加する場合も、リンクを開くとTestFlightに移動します。</p>
+        <div class="phone" aria-hidden="true">
+          <div class="notch"></div>
+          <div class="ptitle">メール</div>
+          <div class="mrow col">
+            <span class="mfrom">Spice Engine</span>
+            <span class="msubj">PuwaPuwaVoiceのテストへのご招待</span>
+          </div>
+          <div class="mrow col">
+            <span>テストにご参加いただきありがとうございます。下のボタンから参加してください。</span>
+          </div>
+          <div class="mrow center">
+            <span class="mbtn tap">TestFlightで表示</span>
+          </div>
+        </div>
+        <p class="figcap">図：招待メールのイメージ</p>
+      </article>
+
+      <article class="step glass">
+        <span class="num">3</span>
+        <h3>PuwaPuwaVoiceをインストール</h3>
+        <p>TestFlightにPuwaPuwaVoiceが表示されたら、<b>「インストール」</b>をタップします。引き換えコード（招待コード）の入力を求められた場合は、TestFlightの「引き換え」から、メールに記載のコードを入力してください。</p>
+        <div class="phone" aria-hidden="true">
+          <div class="notch"></div>
+          <div class="ptitle">TestFlight</div>
+          <div class="mrow">
+            <img class="mappicon-img" src="/icon-512.png" alt="">
+            <span class="mtitle">PuwaPuwaVoice<small>株式会社スパイスエンジン</small></span>
+            <span class="mbtn tap">インストール</span>
+          </div>
+          <div class="mrow col">
+            <span class="msubj">ベータ版アプリです。内容は開発中のものを含みます。</span>
+          </div>
+        </div>
+        <p class="figcap">図：TestFlightでのインストール</p>
+      </article>
+
+      <article class="step glass">
+        <span class="num">4</span>
+        <h3>ホーム画面から起動</h3>
+        <p>インストールが終わったら、<b>ホーム画面のPuwaPuwaVoiceアイコン</b>から起動できます。アイコンの横にオレンジ色の点が付いているのが、テスト版の目印です。</p>
+        <div class="phone" aria-hidden="true">
+          <div class="notch"></div>
+          <div class="ptitle">ホーム画面</div>
+          <div class="hgrid">
+            <span class="happ" style="background:linear-gradient(150deg,#ffd9e1,#ffb3c2);"></span>
+            <span class="happ" style="background:linear-gradient(150deg,#c9f2ec,#93ddd3);"></span>
+            <span class="happ" style="background:linear-gradient(150deg,#ffe9c9,#ffd08a);"></span>
+            <span class="happ" style="background:linear-gradient(150deg,#d9e4ff,#a9c2ff);"></span>
+            <span class="happ" style="background:linear-gradient(150deg,#e6dcff,#c3aef5);"></span>
+            <img class="happ tap" src="/icon-512.png" alt="">
+            <span class="happ" style="background:linear-gradient(150deg,#d8f5d0,#a5e295);"></span>
+            <span class="happ" style="background:linear-gradient(150deg,#f3d9e8,#e3a9cc);"></span>
+          </div>
+        </div>
+        <p class="figcap">図：ホーム画面のアイコンから起動</p>
+      </article>
+
+    </div>
+
+    <div class="note glass">
+      <h2>iPhoneの方へのご案内</h2>
+      <ul>
+        <li><b>更新もTestFlight経由で届きます。</b>新しいバージョンが用意されると、TestFlightのPuwaPuwaVoiceのページに「更新」ボタンが表示されます。TestFlightの設定で自動更新をオンにしておくと便利です。</li>
+        <li><b>テストには期間があります。</b>テスト版には配布期間が設定されており、期間が終わると起動できなくなる場合があります。その場合は、次のテストのご案内をお待ちください。</li>
+        <li><b>フィードバックをお寄せください。</b>TestFlightのPuwaPuwaVoiceのページにある「フィードバックを送信」から、ご意見や不具合の報告を送れます。アプリのスクリーンショットを撮ったときに表示される共有ボタンから、そのままフィードバックとして送信することもできます。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="features" id="android">
+    <h2>Androidの方（App Distribution）</h2>
+    <p class="lead">Androidでは、Firebase App Distributionと「App Tester」アプリを使ってインストールします。</p>
+    <div class="steps teal">
+
+      <article class="step glass">
+        <span class="num">1</span>
+        <h3>招待メールのリンクを開く</h3>
+        <p>株式会社スパイスエンジンから届く<b>招待メール</b>を開き、メール内に案内された<b>リンク</b>をタップします。ブラウザでFirebase App Distributionのページが開きます。</p>
+        <div class="phone" aria-hidden="true">
+          <div class="notch"></div>
+          <div class="ptitle">メール</div>
+          <div class="mrow col">
+            <span class="mfrom">Spice Engine</span>
+            <span class="msubj">PuwaPuwaVoiceのテストへのご招待</span>
+          </div>
+          <div class="mrow col">
+            <span>テストにご参加いただきありがとうございます。下のリンクから開始してください。</span>
+            <span class="mlink tap teal" style="padding:1px 8px;">テストを開始する</span>
+          </div>
+        </div>
+        <p class="figcap">図：招待メールのイメージ</p>
+      </article>
+
+      <article class="step glass">
+        <span class="num">2</span>
+        <h3>「App Tester」を入れてログイン</h3>
+        <p>案内に従って、Firebaseの<b>「App Tester」</b>アプリをインストールします。起動したら、<b>招待メールを受け取ったのと同じGoogleアカウント</b>でログインしてください。アカウントが違うと、アプリが表示されません。</p>
+        <div class="phone" aria-hidden="true">
+          <div class="notch"></div>
+          <div class="ptitle">App Tester</div>
+          <div class="mrow">
+            <span class="mappicon at"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 3c1 3.5-2.2 4.6-2.2 7a2.2 2.2 0 0 0 4.4 0c0-.8-.3-1.4-.7-2 1.9 1.2 3 3 3 5.1A4.6 4.6 0 0 1 12 17.7a4.6 4.6 0 0 1-4.5-4.6c0-3.4 3.4-5.6 4.5-10.1zM12 21a6.8 6.8 0 0 1-6.8-6.8c0-.5.1-1 .2-1.5a5.4 5.4 0 0 0 13.2 0c.1.5.2 1 .2 1.5A6.8 6.8 0 0 1 12 21z" opacity=".95"/></svg></span>
+            <span class="mtitle">App Tester<small>Firebase App Distribution</small></span>
+          </div>
+          <div class="mrow center">
+            <span class="mbtn ghost tap teal"><span style="color:#4285f4;font-weight:900;">G</span> Googleアカウントでログイン</span>
+          </div>
+        </div>
+        <p class="figcap">図：App Testerへのログイン</p>
+      </article>
+
+      <article class="step glass">
+        <span class="num">3</span>
+        <h3>最新リリースをインストール</h3>
+        <p>App Testerに表示されるPuwaPuwaVoiceの<b>最新リリース</b>を選び、ダウンロードしてインストールします。途中で<b>「提供元不明のアプリ」</b>の許可を求められた場合は、App Testerに対してのみ許可してください。許可は、端末の設定からいつでも取り消せます。</p>
+        <div class="phone" aria-hidden="true">
+          <div class="notch"></div>
+          <div class="ptitle">App Tester</div>
+          <div class="mrow">
+            <img class="mappicon-img" src="/icon-512.png" alt="">
+            <span class="mtitle">PuwaPuwaVoice<small>最新リリース</small></span>
+            <span class="mbtn teal tap teal">入手</span>
+          </div>
+          <div class="mrow col">
+            <span class="mfrom">提供元不明のアプリ</span>
+            <span class="msubj">App Testerからのインストールを許可しますか？</span>
+          </div>
+          <div class="mrow center">
+            <span class="mbtn ghost tap teal">許可</span>
+          </div>
+        </div>
+        <p class="figcap">図：最新リリースのインストール</p>
+      </article>
+
+      <article class="step glass">
+        <span class="num">4</span>
+        <h3>起動と、更新の受け方</h3>
+        <p>インストールが終わったら、<b>ホーム画面やアプリ一覧のPuwaPuwaVoiceアイコン</b>から起動できます。新しいバージョンが用意されると、App Testerに更新が表示され、メールでもお知らせが届くことがあります。更新もApp Testerからそのまま行えます。</p>
+        <div class="phone" aria-hidden="true">
+          <div class="notch"></div>
+          <div class="ptitle">ホーム画面</div>
+          <div class="hgrid">
+            <span class="happ" style="background:linear-gradient(150deg,#c9f2ec,#93ddd3);"></span>
+            <span class="happ" style="background:linear-gradient(150deg,#ffd9e1,#ffb3c2);"></span>
+            <span class="happ" style="background:linear-gradient(150deg,#d9e4ff,#a9c2ff);"></span>
+            <span class="happ" style="background:linear-gradient(150deg,#ffe9c9,#ffd08a);"></span>
+            <img class="happ tap" src="/icon-512.png" alt="">
+            <span class="happ" style="background:linear-gradient(150deg,#e6dcff,#c3aef5);"></span>
+            <span class="happ" style="background:linear-gradient(150deg,#f3d9e8,#e3a9cc);"></span>
+            <span class="happ" style="background:linear-gradient(150deg,#d8f5d0,#a5e295);"></span>
+          </div>
+        </div>
+        <p class="figcap">図：ホーム画面のアイコンから起動</p>
+      </article>
+
+    </div>
+
+    <div class="note teal glass">
+      <h2>Androidの方へのご案内</h2>
+      <ul>
+        <li><b>ログインするGoogleアカウントにご注意ください。</b>招待メールを受け取ったGoogleアカウントと別のアカウントでログインすると、PuwaPuwaVoiceが一覧に表示されません。</li>
+        <li><b>「提供元不明のアプリ」の許可について。</b>許可はApp Testerに対してのみ行ってください。見覚えのないアプリへの許可は行わないでください。</li>
+        <li><b>インストールできないときは。</b>端末の空き容量と、通信環境をご確認ください。それでも解決しない場合は、招待メールの送付元までご連絡ください。</li>
+        <li><b>フィードバックをお寄せください。</b>ご意見や不具合の報告は、招待メールの送付元までご連絡ください。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="note glass">
+    <h2>テストについて</h2>
+    <ul>
+      <li>PuwaPuwaVoiceのテスト版は<b>招待制</b>です。招待メールが届いていない方は、インストールできません。</li>
+      <li>テスト版は開発中のアプリです。動作や内容は、正式リリース版と異なる場合があります。</li>
+      <li>正式リリースは、2026年12月24日を予定しています。</li>
+    </ul>
+  </section>
+
+  <p class="backlink"><a href="/">← トップページへ戻る</a></p>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© 2026 PuwaPuwaVoice</p>
+    <p>開発・運営：株式会社スパイスエンジン</p>
+    <p>ふわっと、声のそばに。<span class="heart">♥</span></p>
+  </div>
+</footer>
+
+</body>
+</html>
