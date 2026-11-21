@@ -95,6 +95,10 @@
      directly on the backdrop (glass cards/panels are unchanged) */
   .features h2{filter:drop-shadow(0 1px 2px rgba(255,255,255,.85)) drop-shadow(0 0 14px rgba(255,255,255,.5));}
   .features .lead, .plan-note, footer{text-shadow:0 0 3px rgba(255,255,255,.9), 0 1px 12px rgba(255,255,255,.8);}
+  /* tidy Japanese line breaking in body copy (strict kinsoku, avoid orphans) */
+  .hero .tagline, .hero .sub, .features .lead, .card p, .note p, .plan-note, .timeline .what{
+    line-break:strict;text-wrap:pretty;
+  }
   .wrap{width:min(980px,100% - 40px);margin:0 auto;}
 
   .glass{
@@ -115,7 +119,7 @@
     width:46px;height:46px;flex:none;border-radius:13px;
     box-shadow:0 6px 16px rgba(160,50,90,.25);
   }
-  .brandbar .name{font-size:1.4rem;font-weight:800;letter-spacing:.02em;line-height:1.25;
+  .brandbar .name{font-size:1.4rem;font-weight:800;letter-spacing:.02em;line-height:1.25;min-width:0;
     background:linear-gradient(92deg,var(--pink-deep),var(--teal-deep));
     -webkit-background-clip:text;background-clip:text;color:transparent;}
   .brandbar .name small{display:block;font-size:.7rem;font-weight:600;color:var(--ink-soft);letter-spacing:.16em;
@@ -150,6 +154,7 @@
     -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
     border-radius:999px;padding:7px 22px;font-weight:700;color:var(--pink-deep);
     font-size:.9rem;letter-spacing:.08em;box-shadow:var(--shadow-soft);
+    white-space:nowrap;
   }
   .hero h1{
     margin:22px 0 4px;
@@ -158,6 +163,8 @@
     background:linear-gradient(94deg,var(--red) 0%,var(--pink) 38%,var(--pink-deep) 62%,var(--teal) 108%);
     -webkit-background-clip:text;background-clip:text;color:transparent;
   }
+  /* headline breaks only at the intended phrase boundary */
+  .hero h1 .h1-line{display:block;white-space:nowrap;}
   .hero .tagline{
     margin:14px auto 0;max-width:36em;
     font-size:clamp(1rem,3.4vw,1.2rem);font-weight:600;color:var(--ink);
@@ -260,6 +267,10 @@
   /* ---------- footer ---------- */
   footer{margin-top:auto;padding:40px 0 32px;text-align:center;color:var(--ink-soft);font-size:.88rem;}
   footer .heart{color:var(--pink);}
+  footer .footer-links{margin-top:16px;font-size:.85rem;}
+  footer .footer-link{color:var(--ink-soft);text-decoration:none;}
+  footer a.footer-link[href]:hover{color:var(--pink-deep);text-decoration:underline;}
+  footer .footer-sep{margin:0 10px;opacity:.55;}
 
   @media (max-width:820px){
     .plans-grid{grid-template-columns:repeat(2,1fr);}
@@ -269,9 +280,18 @@
     .hero{padding:22px 0 4px;}
     .hero-panel{padding:40px 20px 34px;border-radius:30px;}
     .card{padding:24px 21px;}
+    /* header: let the X pill wrap to its own right-aligned row instead of
+       overflowing the brand bar on narrow screens */
+    .brandbar{flex-wrap:wrap;row-gap:8px;padding:10px 16px 12px 12px;}
     .brandbar .name{font-size:1.2rem;}
+    .brandbar .xlink{font-size:.8rem;padding:5px 13px;}
+    /* release pill: keep on one line, never break mid-word */
+    .puff{font-size:.8rem;padding:6px 14px;letter-spacing:.03em;}
     .timeline li{flex-direction:column;gap:2px;}
     .timeline .when{width:auto;}
+  }
+  @media (max-width:400px){
+    .puff{font-size:.78rem;padding:6px 12px;}
   }
 </style>
 </head>
@@ -296,9 +316,9 @@
     <div class="hero-panel glass">
       <img class="appicon-big" src="icon-512.png" alt="PuwaPuwaVoice アイコン" width="336" height="336">
       <div><span class="puff">🌸 2026年12月24日 正式リリース予定 🌸</span></div>
-      <h1>好きな声と、話そう。</h1>
+      <h1><span class="h1-line">好きな声と、</span><span class="h1-line">話そう。</span></h1>
       <p class="tagline">作業中も、好きなキャラクターの声とおしゃべりできる。<br>iPhone・iPad・Macで動く、AI音声通話アプリです。</p>
-      <p class="sub">話しかけると、AIがその場で声で返事をしてくれます。現在バージョン0.3を開発中で、TestFlightでテスター向けに配信しています。</p>
+      <p class="sub">話しかけると、AIがその場で声で返事をしてくれます。<br>現在バージョン0.3を開発中で、TestFlightでテスター向けに配信しています。</p>
       <div class="bubble-row" aria-hidden="true">
         <div class="bubble pink">
           <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a3 3 0 0 1 3 3v5a3 3 0 1 1-6 0V6a3 3 0 0 1 3-3z" fill="#fff"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
@@ -323,7 +343,7 @@
           <svg viewBox="0 0 24 24" fill="none"><circle cx="8.5" cy="9" r="3.4" fill="#ff6b8a"/><circle cx="15.5" cy="9" r="3.4" fill="#00c5b7"/><path d="M3.5 19c.6-2.8 2.6-4.2 5-4.2s4.4 1.4 5 4.2M10.5 19c.6-2.8 2.6-4.2 5-4.2 1.6 0 3 .6 3.9 1.8" stroke="#e84a6f" stroke-width="2" stroke-linecap="round"/></svg>
         </div>
         <h3>好きなキャラクターと話せる</h3>
-        <p>話し相手は、ずんだもん、春日部つむぎ、四国めたん、小夜/SAYO。1人とじっくり話すことも、複数人でにぎやかに掛け合うこともできます。琴葉茜・琴葉葵は、v0.5で追加予定です。</p>
+        <p>話し相手は、ずんだもん、春日部つむぎ、四国めたん、琴葉茜・琴葉葵など。1人とじっくり話すことも、複数人でにぎやかに掛け合うこともできます。</p>
       </article>
 
       <article class="card glass">
@@ -400,7 +420,7 @@
         </li>
         <li>
           <div class="when">リリース後</div>
-          <div class="what">v0.4で<b>MCP連携</b>、v0.5で<b>琴葉茜・琴葉葵</b>（A.I.VOICE）の追加を予定しています。</div>
+          <div class="what">v0.4で<b>MCP連携</b>の追加を予定しています。</div>
         </li>
       </ul>
     </div>
@@ -408,9 +428,9 @@
 
   <section class="note glass">
     <h2>声について</h2>
-    <p>PuwaPuwaVoiceのおしゃべりには、VOICEVOXのキャラクターの声を使います。<br>ずんだもん、春日部つむぎ、四国めたん、小夜/SAYO の声でおしゃべりできます。</p>
-    <p class="credits">VOICEVOX:ずんだもん／VOICEVOX:春日部つむぎ／VOICEVOX:四国めたん／VOICEVOX:小夜/SAYO</p>
-    <p class="credits">A.I.VOICEの琴葉茜・琴葉葵は、v0.5での追加を予定しています。</p>
+    <p>PuwaPuwaVoiceのおしゃべりには、VOICEVOXのキャラクターの声と、AITalkのカスタム音声を使います。<br>ずんだもん、春日部つむぎ、四国めたん、琴葉茜・琴葉葵などの声でおしゃべりできます。</p>
+    <p class="credits">VOICEVOX:ずんだもん／VOICEVOX:春日部つむぎ／VOICEVOX:四国めたん</p>
+    <p class="credits">琴葉茜・琴葉葵の声は、AITalkのカスタム音声を使っています。</p>
   </section>
 
 </main>
@@ -420,6 +440,8 @@
     <p>© 2026 PuwaPuwaVoice</p>
     <p>開発・運営：株式会社スパイスエンジン</p>
     <p>ふわっと、声のそばに。<span class="heart">♥</span></p>
+    <!-- お問い合わせ: Google フォームの公開URLが確定したら、下の a 要素に href を設定する（現在はリンク先確定待ちのため href なし） -->
+    <p class="footer-links"><a class="footer-link">お問い合わせ</a><span class="footer-sep">/</span><a class="footer-link" href="/policy">プライバシーポリシー</a></p>
   </div>
 </footer>
 
